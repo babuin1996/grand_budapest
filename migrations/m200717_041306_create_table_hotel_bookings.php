@@ -27,9 +27,7 @@ class m200717_041306_create_table_hotel_bookings extends Migration
      */
     public function safeDown()
     {
-        echo "m200717_041306_create_table_hotel_bookings cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('bookings');
     }
 
     /*

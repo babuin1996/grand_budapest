@@ -42,10 +42,12 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/site/login']]
             ) : (
+
+                '<li ><a href="/admin">Админка</a></li>' .
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Выход (' . Yii::$app->user->identity->username . ')',
+                    'Выход',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

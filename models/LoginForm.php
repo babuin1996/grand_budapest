@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use app\components\UserIdentity;
 use Yii;
 use yii\base\Model;
+use yii\db\ActiveRecord;
 
 /**
  * LoginForm is the model behind the login form.
@@ -35,6 +37,19 @@ class LoginForm extends Model
         ];
     }
 
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'password' => 'Пароль',
+        ];
+    }
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -54,26 +69,28 @@ class LoginForm extends Model
     }
 
     /**
+     * @var $user Users
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return UserIdentity|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = UserIdentity::findByLogin($this->username);
         }
 
         return $this->_user;

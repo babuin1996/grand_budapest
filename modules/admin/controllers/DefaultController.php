@@ -22,7 +22,7 @@ class DefaultController extends Controller
                 'only' => ['*'],
                 'rules' => [
                     [
-                        'actions' => ['*'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

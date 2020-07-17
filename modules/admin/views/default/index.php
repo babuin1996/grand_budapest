@@ -1,12 +1,23 @@
-<div class="admin-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
+<?php
+use yii\helpers\Url;
+
+$this->title = 'Добавление';
+$this->params['breadcrumbs']['homeLink'] = [
+    'label' => 'Админка',
+    'url' => '/admin',
+];
+?>
+<p>
+    <div class="admin-default-index">
+        <a href="<?=Url::to('/admin/hotel-numbers')?>" class="btn btn-primary">
+            Номера
+        </a>
+    </div>
+</p>
+<p>
+    <div class="admin-default-index">
+        <a href="<?=Url::to('/admin/bookings')?>" class="btn btn-success">
+            Бронирования
+        </a>
+    </div>
+</p>

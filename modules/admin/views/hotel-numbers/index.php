@@ -26,12 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-//            'id',
             'name',
             'description:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'label' => 'Забронировано в',
+                'value' => function ($model) {
+                    return date('d-m-Y H:i:s', $model['booked_at']);
+                }
+            ],
         ],
     ]); ?>
 

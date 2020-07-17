@@ -2,8 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\Bookings;
+use app\models\HotelNumbers;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -61,7 +65,41 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $booking_date = Yii::$app->request->get('booking_date');
+
+        if ($booking_date) {
+            $bookings = Bookings::find()->where(['booking_date' => $booking_date])->all();
+            $hotel_numbers_ids = ArrayHelper::map($bookings, 'hotel_number_id', 'hotel_number_id');
+
+            $dataProvider = new ActiveDataProvider([
+                'query' =>
+                    HotelNumbers::find()
+                        ->where(['not in', 'id', $hotel_numbers_ids]),
+            ]);
+
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->render('index');
+        }
+    }
+
+    /**
+     * Форма брони для клиента
+     */
+    public function actionBookNumber($number_id, $booking_date)
+    {
+
+        $model = new Bookings();
+        $model->hotel_number_id = $number_id;
+        $model->booking_date = $booking_date;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/site/index?success_msg=1']);
+        }
+
+        return $this->render('book', ['model' => $model]);
     }
 
     /**

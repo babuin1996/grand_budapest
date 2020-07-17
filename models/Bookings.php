@@ -33,6 +33,7 @@ class Bookings extends \yii\db\ActiveRecord
             [['hotel_number_id', 'booked_at'], 'integer'],
             [['booking_date'], 'safe'],
             [['customer_name', 'customer_phone'], 'string', 'max' => 255],
+            [['customer_name', 'customer_phone'], 'required'],
         ];
     }
 

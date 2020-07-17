@@ -34,6 +34,7 @@ class Bookings extends \yii\db\ActiveRecord
             [['booking_date'], 'safe'],
             [['customer_name', 'customer_phone'], 'string', 'max' => 255],
             [['customer_name', 'customer_phone'], 'required'],
+            [['hotel_number_id', 'booked_at'], 'unique', 'targetAttribute' => ['hotel_number_id', 'booked_at']]
         ];
     }
 
@@ -72,7 +73,7 @@ class Bookings extends \yii\db\ActiveRecord
 
     public static function findByIdAndBookingDate($hotel_number_id, $booking_date, $booking_id)
     {
-        self::find()
+        return self::find()
             ->where([
                 'hotel_number_id' => $hotel_number_id,
                 'booking_date' => $booking_date,
